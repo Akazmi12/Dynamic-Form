@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="DOM5_project.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="form-template">
+        <h1>Contact US</h1>
+        <div class="btn-class">
+            <button onClick="create('input')">INPUT</button>
+            <button onClick="create('textarea')">TEXT AREA</button><br>
+            <button onClick="create('radio')">RADIO</button>
+            <button onClick="create('checkbox')">CHECKBOX</button><br>
+            <button onClick="create('submit')" style="width:310px;margin-bottom:20px;">SUBMIT</button>
+        </div>
+        <form onSubmit="runSubmit(event)" Id="form-1"></form>
+    </div>
+
+    <script>
+        // manual field creator
+        let lis = [];
+        let sbut = 0;
+
+        function create(tag) {
+            if (tag == 'input') {
+                tempDiv = document.createElement('div');
+                tempDiv.classList.add('form-text');
+
+
+                let tempLabel = prompt('Please enter the Label: ');
+                lbl = document.createTextNode(tempLabel);
+                if (tempLabel == "" || lis.includes(tempLabel)) {
+                    alert("Label invalid!");
+                    return
+                }
+
+                const lbel = document.createElement('label');
+                lbel.appendChild(lbl);
+                const inp = document.createElement('input');
+                inp.id = tempLabel + "_id";
+                inp.name = tempLabel;
+                lbel.htmlFor = inp.id;
+                inp.style.display = "block";
+                tempDiv.appendChild(lbel);
+                tempDiv.appendChild(inp);
+
+
+                if (sbut == 0) {
+                    const element = document.getElementById('form-1');
+                    element.appendChild(tempDiv);
+                }
+                else {
+
+                    sbefore_text(tempDiv);
+                }
+                lis.push(tempLabel);
+
+            }
+
+            else if (tag == 'textarea') {
+                tempDiv = document.createElement('div');
+                tempDiv.classList.add('form-textarea');
+                let tempLabel = prompt('Please enter the Label: ');
+                lbl = document.createTextNode(tempLabel);
+                if (tempLabel == "" || lis.includes(tempLabel)) {
+                    alert("Label invalid!");
+                    return
+                }
+                const lbel = document.createElement('label');
+                lbel.appendChild(lbl);
+                const inp = document.createElement('textarea');
+                inp.name = tempLabel;
+                inp.id = tempLabel + "_id";
+                lbel.htmlFor = inp.id;
+                inp.style.display = "block";
+                tempDiv.appendChild(lbel);
+                tempDiv.appendChild(inp);
+
+                if (sbut == 0) {
+                    const element = document.getElementById('form-1');
+                    element.appendChild(tempDiv);
+                }
+                else {
+
+                    sbefore_text(tempDiv);
+                }
+
+                lis.push(tempLabel);
+
+            }
+
+            else if (tag == 'radio') {
+                // const tempDiv = document.createElement('div');
+                // tempDiv.classList.add('form-radio');
+                let tempLabel = prompt('Please enter the Label: ');
+                lbl = document.createTextNode(tempLabel);
+                if (tempLabel == "" || tempLabel == null || lis.includes(tempLabel)) {
+                    alert("Label invalid!");
+                    return
+                }
+                const lbel = document.createElement('label');
+                lbel.appendChild(lbl);
+                const inp = document.createElement('input');
+                inp.type = 'radio';
+                inp.name = 'radio';
+                inp.value = tempLabel;
+                inp.id = tempLabel + "_id";
+                lbel.htmlFor = inp.id;
+                inp.classList.add('box-right');
+                lbel.classList.add('label-right');
+
+                if (sbut == 0) {
+                    const element = document.getElementById('form-1');
+                    element.appendChild(inp);
+                    element.appendChild(lbel);
+                    // element.appendChild(tempDiv)
+                }
+                else {
+
+                    sbefore(lbel, inp);
+                }
+                lis.push(tempLabel);
+
+                let checker = prompt("Are you done with radio: y/n");
+                if (checker == "y") {
+                    // const element = document.getElementById('form-1');
+                    // element.appendChild(document.createElement('br'));
+                    element = document.getElementById('form-1');
+                    child = document.getElementById('submit');
+                    element.insertBefore(document.createElement('br'), child);
+                }
+
+            }
+            else if (tag == 'checkbox') {
+                // const tempDiv = document.createElement('div');
+                // tempDiv.classList.add('form-checkbox');
+                let tempLabel = prompt('Please enter the Label: ');
+                lbl = document.createTextNode(tempLabel);
+                if (tempLabel == "" || lis.includes(tempLabel)) {
+                    alert("Label invalid!");
+                    return
+                }
+                const lbel = document.createElement('label');
+                lbel.appendChild(lbl);
+                const inp = document.createElement('input');
+                inp.type = 'checkbox';
+                inp.name = 'checkbox';
+                inp.value = tempLabel;
+                inp.id = tempLabel + "_id";
+                lbel.htmlFor = inp.id;
+
+                inp.classList.add('box-right');
+                lbel.classList.add('label-right');
+                if (sbut == 0) {
+                    const element = document.getElementById('form-1');
+                    element.appendChild(inp);
+                    element.appendChild(lbel);
+                    // element.appendChild(tempDiv)
+
+                }
+                else {
+                    sbefore(lbel, inp);
+                }
+                lis.push(tempLabel);
+
+                let checker = prompt("Are you done with checkbox: y/n");
+                if (checker == "y") {
+                    // const element = document.getElementById('form-1');
+                    // element.appendChild(document.createElement('br'));
+                    element = document.getElementById('form-1');
+                    child = document.getElementById('submit');
+                    element.insertBefore(document.createElement('br'), child);
+                }
+
+
+            }
+            else if (tag == 'submit' && sbut == 0) {
+
+                const bt = document.createElement('button');
+                bt.style.width = '310px';
+                bt.style.marginTop = '20px';
+                const text = document.createTextNode('SUBMIT');
+                bt.appendChild(text);
+                element = document.getElementById('form-1');
+                bt.type = "submit";
+                bt.id = 'submit';
+                bt.style.display = 'block';
+                element.appendChild(bt);
+                sbut++;
+            }
+
+        }
+
+        // submit button pre added for text and text area
+        function sbefore_text(temp) {
+            element = document.getElementById('form-1');
+            child = document.getElementById('submit')
+
+
+            element.insertBefore(temp, child);
+        };
+
+        // submit button pre added
+        function sbefore(lab, inp) {
+            element = document.getElementById('form-1');
+            child = document.getElementById('submit')
+
+
+            element.insertBefore(inp, child);
+            element.insertBefore(lab, child);
+        };
+
+
+
+
+        // automated field creator
+        let dataObject =
+        {
+            input: {
+                Firstname: "hello",
+            },
+            textarea: {
+                "Message": "This is message",
+            },
+            radio: {
+                "Male": "false",
+                "Female": "true",
+            },
+            checkbox: {
+                "Cool": "true",
+                "Hot": "false"
+            }
+        }
+
+
+        let dataKeys = Object.keys(dataObject);
+
+        for (const i of dataKeys) {
+            if (i == 'input') {
+
+                const tempKey = Object.keys(dataObject[i]);
+
+                for (const j of tempKey) {
+                    // console.log(j + " : " + dataObject[i][j])
+                    create_input(j, i);
+                    lis.push(j);
+                }
+            }
+            else if (i == 'textarea') {
+
+                // console.log(i + " spotted!")
+                const tempKey = Object.keys(dataObject[i]);
+
+                for (const j of tempKey) {
+                    // console.log(j + " : " + dataObject[i][j])
+                    create_textarea(j, i);
+                    lis.push(j);
+                }
+            }
+            else if (i == 'radio') {
+                // console.log(i + " spotted!")
+                const tempKey = Object.keys(dataObject[i]);
+
+                for (const j of tempKey) {
+                    // console.log(j + " : " + dataObject[i][j])
+                    create_radio(j, i);
+                    lis.push(j);
+                }
+                element = document.getElementById('form-1');
+                element.appendChild(document.createElement('br'))
+            }
+            else if (i == 'checkbox') {
+                // console.log(i + " spotted!")
+                const tempKey = Object.keys(dataObject[i]);
+
+                for (const j of tempKey) {
+                    // console.log(j + " : " + dataObject[i][j])
+                    create_checkbox(j, i);
+                    lis.push(j);
+                }
+                element = document.getElementById('form-1');
+                element.appendChild(document.createElement('br'))
+            }
+        }//end for-loop
+
+        function create_input(cover, info) {
+            tempDiv = document.createElement('div');
+            tempDiv.classList.add('form-text');
+            lbl = document.createTextNode(cover);
+            information = dataObject[info][cover];
+            const lbel = document.createElement('label');
+            lbel.appendChild(lbl);
+            const inp = document.createElement('input');
+            inp.id = cover + "_id";
+            inp.name = cover;
+            lbel.htmlFor = inp.id;
+            inp.style.display = "block";
+            const element = document.getElementById('form-1');
+            tempDiv.appendChild(lbel);
+            inp.value = information;
+            tempDiv.appendChild(inp);
+            element.appendChild(tempDiv)
+        }
+
+        function create_textarea(cover, info) {
+            tempDiv = document.createElement('div');
+            tempDiv.classList.add('form-textarea');
+            lbl = document.createTextNode(cover); information = document.createTextNode(dataObject[info][cover]);
+            const lbel = document.createElement('label');
+            lbel.appendChild(lbl);
+            const inp = document.createElement('textarea');
+            inp.id = cover + "_id";
+            inp.name = cover;
+            lbel.htmlFor = inp.id;
+            inp.style.display = "block";
+            const element = document.getElementById('form-1');
+            tempDiv.appendChild(lbel);
+            inp.appendChild(information);
+            tempDiv.appendChild(inp);
+            element.appendChild(tempDiv);
+        }
+
+        function create_radio(cover, info) {
+            // const tempDiv = document.createElement('div');
+            // tempDiv.classList.add('form-radio');
+            lbl = document.createTextNode(cover);
+            const lbel = document.createElement('label');
+            lbel.appendChild(lbl);
+            const inp = document.createElement('input');
+            inp.type = 'radio';
+            inp.name = 'radio';
+            inp.value = cover;
+            inp.id = cover + "_id";
+            lbel.htmlFor = inp.id;
+            const element = document.getElementById('form-1');
+            if (dataObject[info][cover] == 'true') { inp.checked = true; }
+            inp.classList.add('box-right');
+            lbel.classList.add('label-right');
+            element.appendChild(inp);
+            element.appendChild(lbel);
+            // element.appendChild(tempDiv);
+        }
+
+        function create_checkbox(cover, info) {
+            // const tempDiv = document.createElement('div');
+            // tempDiv.classList.add('form-checkbox');
+            lbl = document.createTextNode(cover);
+            const lbel = document.createElement('label');
+            lbel.appendChild(lbl);
+            const inp = document.createElement('input');
+            inp.type = 'checkbox';
+            inp.name = 'checkbox';
+            inp.value = cover;
+            inp.id = cover + "_id";
+            lbel.htmlFor = inp.id;
+            const element = document.getElementById('form-1');
+            if (dataObject[info][cover] == 'true') { inp.checked = true; }
+            inp.classList.add('box-right');
+            lbel.classList.add('label-right');
+            element.appendChild(inp);
+            element.appendChild(lbel);
+            // element.appendChild(tempDiv);
+
+
+        }
+        // version-complete
+
+        const form1 = document.querySelector('form');
+        const form = new FormData(form1);
+
+        function runSubmit(e) {
+            e.preventDefault();
+
+            const radio = document.getElementsByName('radio');
+            let radioList = {};
+            for (let i = 0; i < radio.length; i++) {
+                if (radio[i].checked) {
+                    radioList[radio[i].value] = "true";
+                }
+                else {
+                    radioList[radio[i].value] = "false";
+                }
+            }
+
+
+            const checkbox = document.getElementsByName('checkbox');
+            let checkList = {};
+            for (let i = 0; i < checkbox.length; i++) {
+                if (checkbox[i].checked) {
+                    checkList[checkbox[i].value] = "true";
+                }
+                else {
+                    checkList[checkbox[i].value] = "false";
+                }
+            }
+
+            let ans = '';
+            for (const pair of form.entries()) {
+                ans += `${pair[0]} : ${pair[1]}` + "\n";
+            }
+            const data = Object.fromEntries(form);
+            data['radio'] = radioList;
+            data['checkbox'] = checkList;
+            console.log(data);
+        }
+
+
+    </script>
+</body>
+
+</html>
